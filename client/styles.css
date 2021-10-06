@@ -1,6 +1,5 @@
-body {
+#app {
   font-family: "Roboto", sans-serif;
-  width: 312px;
   margin: auto;
   padding: 20px;
   position: relative;
@@ -9,6 +8,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+}
+
+.section {
+  /* This is where the sub H1 wraps/blocks start to look bad, so the sections wrap here */
+  flex: 600px; 
 }
 
 h1 {
@@ -19,6 +24,7 @@ h1 {
 .item {
   height: 500px;
 }
+
 .small {
   height: 250px;
 }
@@ -30,3 +36,4 @@ h1 {
 .pp-button-container {
   margin: 30px 0;
 }
+
