@@ -1,6 +1,11 @@
 /* eslint-disable consistent-return, new-cap, no-alert, no-console */
 
 paypal.Buttons({
+    style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+    },
     createOrder: function (data, actions) {
         return actions.order.create({
             purchase_units: [{
