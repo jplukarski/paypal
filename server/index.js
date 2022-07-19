@@ -10,13 +10,8 @@ app.get("/", (req, res) => {
   res.sendFile(resolve(__dirname, "../client/index.html"));
 });
 
-// const CLIENT_ID = 'alc_client1'
-// const APP_SECRET = 'secret'
-// const CLIENT_ID = 'B_AF7iNYDLbxkdU12xnJWgVZDmfKv7khjdgZ6mMG89YNVD2mH3dE-ypPQxh3WW8eDYSUJUOY0i__WTicdo'
-// const APP_SECRET = 'ENzQHG7oxCna3MsFKqtSx1Vr1fyRIHPfFtnZ4efurqYARwOttdIB_MRslf45l_DA4I1MQz8afW6SFAQf'
- 
 const CLIENT_ID = 'B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk'
-const APP_SECRET = 'EEF_V0V35vFQl_M7nDSDLBevD_ptRnRmcgZrRBlpac7Vpdz9J0_aCDa5pINFlOXMwe1vfXkccQeUm-uY'
+const APP_SECRET = ''
 const base = "http://localhost.paypal.com:8000";
 
 (async function () {
