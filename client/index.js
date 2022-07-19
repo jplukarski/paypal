@@ -10,6 +10,8 @@ const cardExpiryContainer = document.getElementById(
 );
 const cardPostalCodeContainer = document.getElementById("card-postal-code-field-container");
 const multiCardFieldButton = document.getElementById("multi-card-field-button");
+const singleCardFieldsContainer = document.getElementById('single-card-fields-container')
+const singleCardFieldButton = document.getElementById("single-card-field-button")
 
 const styleObject = {
   input: {
@@ -20,7 +22,7 @@ const styleObject = {
     "box-shadow": "10px 5px 5px red",
   },
   ".invalid": {
-    color: "red",
+    color: "purple",
   },
 };
 
@@ -28,26 +30,23 @@ const cardField = paypal.CardFields({
   // style: styleObject,
   createOrder: function (data, actions) {
     console.log("Here are the actions", actions);
-    // return actions.order.create({
-    //   purchase_units: [
-    //     {
-    //       amount: {
-    //         value: "50.00",
-    //       },
-    //     },
-    //   ],
-    // });
-    return fetch('/api/paypal/order/create/', {
-        method: 'post'
-    }).then((res) => {
-        return res.json();
-    }).then((orderData) => {
-        console.log('Order: ', orderData)
-        return orderData.id;
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: "50.00",
+          },
+        },
+      ],
     });
-  },
-  onChange: ({ isValid, errors }) => {
-    console.log("onchange: ", isValid, errors);
+    // return fetch('/api/paypal/order/create/', {
+    //     method: 'post'
+    // }).then((res) => {
+    //     return res.json();
+    // }).then((orderData) => {
+    //     console.log('Order: ', orderData)
+    //     return orderData.id;
+    // });
   },
   onApprove: function (data, actions) {
     console.log("on approve happened");
@@ -57,11 +56,19 @@ const cardField = paypal.CardFields({
   },
 });
 
+console.log('CardField Eligibility');
+console.log(cardField)
+const eligibiility = cardField.isEligible();
+console.log(eligibiility);
+
+cardField.render(singleCardFieldsContainer);
 cardField.NameField().render(cardNameContainer);
 cardField.NumberField().render(cardNumberContainer);
 cardField.CVVField().render(cardCvvContainer);
 cardField.ExpiryField().render(cardExpiryContainer);
-cardField.PostalCodeField().render(cardPostalCodeContainer)
+cardField.PostalCodeField(
+  {minLength: 4, maxLength: 9}
+).render(cardPostalCodeContainer)
 
 multiCardFieldButton.addEventListener('click', () => {
     console.log('clicked multi fields button')
@@ -71,3 +78,12 @@ multiCardFieldButton.addEventListener('click', () => {
         console.log("There was an error with multi card fields: ", err)
     })
 });
+
+singleCardFieldButton.addEventListener('click', () => {
+    console.log('clicked single fields button')
+    cardField.submit().then(()=>{
+        console.log('single card fields submit')
+    }).catch((err) => {
+        console.log("There was an error with single card fields: ", err)
+    })
+})
