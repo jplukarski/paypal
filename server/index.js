@@ -30,10 +30,6 @@ const base = "http://localhost.paypal.com:8000";
   }
 
   app.post("/api/paypal/order/create/", async (req, res) => {
-    // res.sendFile(resolve(__dirname, "../client/index.html"));
-    // console.log('Request', req)
-    // res.json({id: '123456789'})
-    // paypalSDK.createOrder(res)
     console.log("Response", res)
     const accessToken = await generateAccessToken();
     const url = `${base}/v2/checkout/orders`;
@@ -54,6 +50,22 @@ const base = "http://localhost.paypal.com:8000";
           },
         ],
       }),
+    });
+    const data = await response.json();
+    console.log('Data: ', data)
+    res.json(data);
+  });
+
+  app.post("/api/paypal/orders/:id/capture", async (req, res) => {
+    const accessToken = await generateAccessToken();
+    const url = `${base}/v2/checkout/orders/${req.params.id}/capture`;
+    const response = await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({})
     });
     const data = await response.json();
     console.log('Data: ', data)
