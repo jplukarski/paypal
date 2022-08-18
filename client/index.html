@@ -14,13 +14,12 @@
    </head>
    <body>
       <div id="app">
-         <h1>Buy a plant!</h1>
+         <h1>Buy a Slug!</h1>
          <img
-            class="item"
-            src="./img/cheese-plant.jpg"
-            alt="Swiss Cheese plant"
+            class="slug"
+            src="./img/bot-slug-filled.png"
+            alt="slug"
             />
-         <span class="caption">Photo by <a href="https://unsplash.com/@mensroom?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Mike Marquez</a> on <a href="https://unsplash.com/s/photos/cheese-plant?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
          <h2>Single Card Fields</h2>
          <div id="single-card-fields-container"></div>
          <button id="single-card-field-button">Pay now with Single Card Field</button>
@@ -31,8 +30,27 @@
          <div id="card-cvv-field-container"></div>
          <div id="card-postal-code-field-container"></div>
          <button id="multi-card-field-button" type="button">Pay now with Multi Card Fields</button>
+         <div>
+            <input type="checkbox" id="vault" name="vault">
+            <label for="save">Save your card</label>
+          </div>
+         <br>
+         <button id="mcf-set-placeholder">Set Placeholder</button>
+         <button id="mcf-remove-placeholder">Remove Placeholder</button>
+         <br>
+         <button id="mcf-disable">Disable Field</button>
+         <button id="mcf-enable">Enable Field</button>
+         <br>
+         <button id="mcf-set-aria-invalid">Set aria-invalid</button>
+         <button id="mcf-remove-aria-invalid">Remove aria-invalid</button>
+         <br>
+         <button id="mcf-set-aria-required">Set Aria-required</button>
+         <button id="mcf-remove-aria-required">Remove Aria-required</button>
+         <br>
+         <button id="mcf-add-class">Add Class</button>
+         <button id="mcf-remove-class">Remove Class</button>
       </div>
-      <script src="http://localhost.paypal.com:8000/sdk/js?client-id=B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk&components=card-fields&intent=capture"></script>
+      <script src="http://localhost.paypal.com:8000/sdk/js?client-id=B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk&components=card-fields&intent=capture" ></script>
       <script src="./index.js"></script>
    </body>
 </html>

@@ -1,6 +1,7 @@
 const express = require("express")
 const { resolve } = require("path")
 const fetch = require("node-fetch");
+const { application } = require("express");
 
 const app = express()
 
@@ -15,6 +16,22 @@ const APP_SECRET = ''
 const base = "http://localhost.paypal.com:8000";
 
 (async function () {
+
+  // Vault w/ Purchase Spike
+  // async function generateClientToken() {
+  //   const accessToken = await generateAccessToken();
+  //   const response = await fetch(`${base}/v1/identity/generate-token`, {
+  //     headers:{
+  //       Accept: 'application/json',
+  //       "Accept-Language": 'en_US',
+  //       Authorization: `Bearer ${accessToken}`, 
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       "customer_id": "example_customer_id"
+  //     })
+  //   })
+  // }
 
   async function generateAccessToken() {
     const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64");
@@ -49,6 +66,23 @@ const base = "http://localhost.paypal.com:8000";
             },
           },
         ],
+        // Vault with Purchase spike
+        "payment_source": {
+          "card": {
+            "name": "Joe Paypal",
+            "billing_address":{
+              // billing address details
+            },
+            "attributes": {
+              "customer": {
+                "id": "example_customer_id"
+              },
+              "vault": {
+                "store_in_vault": "ON_SUCCESS",
+              }
+            }
+          }
+        }
       }),
     });
     const data = await response.json();
@@ -71,6 +105,8 @@ const base = "http://localhost.paypal.com:8000";
     console.log('Data: ', data)
     res.json(data);
   });
+
+  // 
 
 })();
 

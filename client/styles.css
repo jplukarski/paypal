@@ -16,8 +16,8 @@ h1 {
   font-weight: bold;
 }
 
-.item {
-  height: 500px;
+.slug{
+  height: 250px;
 }
 .small {
   height: 250px;
@@ -29,4 +29,8 @@ h1 {
 
 #paypal-button-container{
   margin: 30px 0;
+}
+
+.purple {
+  color: purple
 }
