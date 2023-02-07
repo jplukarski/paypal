@@ -20,8 +20,11 @@
             src="./img/bot-slug-filled.png"
             alt="slug"
             />
-         <h2>Single Card Fields</h2>
+         <!-- <h2>Single Card Fields</h2> -->
          <div id="single-card-fields-container"></div>
+         <div id="payment-id"></div>
+         <div id="payment-source"></div>
+         <div id="payment-status"></div>
          <button id="single-card-field-button">Pay now with Single Card Field</button>
          <h2>Multi Card Fields</h2>
          <div id="card-name-field-container"></div>
@@ -49,8 +52,21 @@
          <br>
          <button id="mcf-add-class">Add Class</button>
          <button id="mcf-remove-class">Remove Class</button>
+         <button id="mcf-focus">Focus CardField</button>
+         <button id="mcf-clear">Clear Name Field</button>
+         <button id="scf-focus">Focus Single Card Field</button>
+         <button id="scf-clear">Clear Single Card Field</button>
+         <button id="mcf-setMessage">Set message for screen readers on card number</button>
+         <button id="mcf-getState">getState</button>
+         <button id="setMessageCardName" type="button">SetMessage card name</button>
+         <button id="setMessageCardNumber" type="button">setMessageCardNumber</button>
+         <button id="setMessageCvv" type="button">setMessageCvv</button>
+         <button id="setMessageExpiry" type="button">setMessageExpiry</button>
+         <button id="setMessagePostalCode" type="button">setMessagePostalCode</button>
+         <button id="onEvent">Subcribe to event</button>
       </div>
-      <script src="http://localhost.paypal.com:8000/sdk/js?client-id=B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk&components=card-fields&intent=capture" ></script>
+      <div id="onEventPayload"></div>
+      <script src="http://localhost.paypal.com:8000/sdk/js?client-id=B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk&components=card-fields&intent=capture"></script>
       <script src="./index.js"></script>
    </body>
 </html>

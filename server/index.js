@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 const CLIENT_ID = 'B_A3Nk8jo-3tRnmAWKP1vmp7hhd4oSTLUSzyS3A3WvmOPWc2syHRjoA68GmQpjiPVc3X2sexAwMQaNn2Lk'
 const APP_SECRET = ''
 const base = "http://localhost.paypal.com:8000";
-
+// https://developer.paypal.com/docs/checkout/advanced/integrate/#link-calltheordersapi 
 (async function () {
 
   // Vault w/ Purchase Spike
@@ -32,7 +32,6 @@ const base = "http://localhost.paypal.com:8000";
   //     })
   //   })
   // }
-
   async function generateAccessToken() {
     const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64");
     const response = await fetch(`${base}/v1/oauth2/token`, {
@@ -67,22 +66,22 @@ const base = "http://localhost.paypal.com:8000";
           },
         ],
         // Vault with Purchase spike
-        "payment_source": {
-          "card": {
-            "name": "Joe Paypal",
-            "billing_address":{
-              // billing address details
-            },
-            "attributes": {
-              "customer": {
-                "id": "example_customer_id"
-              },
-              "vault": {
-                "store_in_vault": "ON_SUCCESS",
-              }
-            }
-          }
-        }
+        // "payment_source": {
+        //   "card": {
+        //     "name": "Joe Paypal",
+        //     "billing_address":{
+            // billing address details
+            // },
+            // "attributes": {
+            //   "customer": {
+            //     "id": "example_customer_id"
+            //   },
+            //   "vault": {
+            //     "store_in_vault": "ON_SUCCESS",
+            //   }
+            // }
+          // }
+        // }
       }),
     });
     const data = await response.json();

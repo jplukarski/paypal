@@ -20,9 +20,26 @@ const styleObject = {
   },
 };
 
+// const onChange = function(event) {
+//   console.log(event)
+//   // if (event.inputSubmitRequest){
+
+//   // }
+// }
+
+const onInputSubmitRequest = function (event) {
+  // check if all fields are valid
+  // if so, call cardField.submit()
+  // if not display message saying what
+};
+
+const onFocusCallback = function (event) {
+  console.log("focus from test app", event);
+};
+
 // Create the Card Fields Component and define callbacks
 const cardField = paypal.CardFields({
-  style: styleObject,
+  // style: styleObject,
   createOrder: function (data, actions) {
     return fetch("/api/paypal/order/create/", {
       method: "post",
@@ -46,7 +63,28 @@ const cardField = paypal.CardFields({
       .then((orderData) => {
         console.log("Payment approved and captured:", orderData);
         // window.location.href = "approve.html";
+        document.getElementById('payment-id').innerHTML = `Order ID: ${JSON.stringify(orderData.id)}`
+        document.getElementById('payment-source').innerHTML = `Payment Source: ${JSON.stringify(orderData.payment_source)}`
+        document.getElementById('payment-status').innerHTML = `Status: ${JSON.stringify(orderData.status)}`
       });
+  },
+  inputEvents: {
+    // onChange: function (data) {
+    //   console.log("Input Change Handler in Parent");
+    //   console.log(data);
+    // },
+    // onFocus: function(data) {
+    //   console.log("Focus Change Handler in Parent");
+    //   console.log(data);
+    // },
+    // onBlur: function(data) {
+    //   console.log("Blur Change Handler in Parent");
+    //   console.log(data);
+    // },
+    onInputSubmitRequest: function(data) {
+      console.log('Input submit request in parent')
+      console.log(data)
+    }
   },
 });
 
@@ -69,39 +107,46 @@ const multiCardFieldButton = document.getElementById("multi-card-field-button");
 // Check eligibility first
 if (cardField.isEligible()) {
   const nameField = cardField.NameField({
-    onChange: function (event) {
-      console.log("Value Changed: ", event);
-    },
+    // style: styleObject,
+    inputEvents: {
+      // onChange: function(data) {
+      //   console.log('Take the onChange from the name field pls')
+      //   console.log(data)
+      // },
+      onInputSubmitRequest: function(data){
+        console.log('Take the input submit request from the name field pls')
+        console.log(data)
+      },
+      // onFocus: function(data){
+      //   console.log('Take the onFocus from the name field pls')
+      //   console.log(data)
+      // },
+      // onBlur: function(data){
+      //   console.log('Take the onBlur from the name field pls')
+      //   console.log(data)
+      // }
+    }
   });
+  console.log(nameField);
   nameField.render(cardNameContainer);
-
   const numberField = cardField.NumberField({
-    onChange: function (event) {
-      console.log("Value Changed: ", event);
-    },
+
   });
   numberField.render(cardNumberContainer);
 
-  const cvvField = cardField.CVVField({
-    onChange: function (event) {
-      console.log("Value Changed: ", event);
-    },
-  });
+  const cvvField = cardField.CVVField()
   cvvField.render(cardCvvContainer);
 
   const expiryField = cardField.ExpiryField({
-    onChange: function (event) {
-      console.log("Value Changed: ", event);
-    },
+
   });
   expiryField.render(cardExpiryContainer);
 
   const postalCodeField = cardField.PostalCodeField({
+
     minLength: 4,
     maxLength: 9,
-    onChange: function (event) {
-      console.log("Value Changed: ", event);
-    },
+
   });
   postalCodeField.render(cardPostalCodeContainer);
 
@@ -115,13 +160,13 @@ if (cardField.isEligible()) {
 
   const removePlaceholder = document.getElementById("mcf-remove-placeholder");
   removePlaceholder.addEventListener("click", () => {
-    nameField.removeAttribute("placeholder");
+    console.log(nameField.removeAttribute("placeholder"));
   });
 
   // Disable or enable a field
   const disableButton = document.getElementById("mcf-disable");
   disableButton.addEventListener("click", () => {
-    numberField.setAttribute("disabled", true);
+    console.log(numberField.setAttribute("disabled", true));
   });
 
   const enableButton = document.getElementById("mcf-enable");
@@ -156,23 +201,84 @@ if (cardField.isEligible()) {
   // Add or remove a class
   const addClassButton = document.getElementById("mcf-add-class");
   addClassButton.addEventListener("click", () => {
-    numberField.addClass("purple");
+    console.log(numberField.addClass("purple"));
   });
   const removeClassButton = document.getElementById("mcf-remove-class");
   removeClassButton.addEventListener("click", () => {
-    numberField.removeClass("purple");
+    console.log(numberField.removeClass("purple"));
+  });
+
+  // Focus on the cardNumber field
+  const focusNumberButton = document.getElementById("mcf-focus");
+  focusNumberButton.addEventListener("click", () => {
+    console.log(numberField.focus());
+  });
+
+  // Clear the value in the name field
+  const clearNameButton = document.getElementById("mcf-clear");
+  clearNameButton.addEventListener("click", () => {
+    console.log(nameField.clear());
+  });
+
+  // Set message on card number field
+  const setMessageButton = document.getElementById("mcf-setMessage");
+  setMessageButton.addEventListener("click", () => {
+    numberField.setMessage("Screenreader message!");
+  });
+
+  // Get state object for all fields
+  const getStateButton = document.getElementById("mcf-getState");
+  getStateButton.addEventListener("click", () => {
+    // console.log(cardField.getState())
+    // const state = cardField.getState()
+    // console.log('state',state)
+    // console.log(cardField.getState())
+    cardField.getState().then((res, err) => {
+      // do something
+      if (err) {
+        console.log("GetState Error: ", err);
+
+        return;
+      }
+      console.log("From the test kitchen", res);
+    });
+    // nameField.getState()
+    // cardField.addClass('some-class')
+  });
+
+  // setInterval(()=>{
+  //   console.log(cardField.getState())
+  // },3000)
+
+  const cardNameSetMessage = document.getElementById("setMessageCardName");
+  const cardNumberSetMessage = document.getElementById("setMessageCardNumber");
+  const cvvSetMessage = document.getElementById("setMessageCvv");
+  const expirySetMessage = document.getElementById("setMessageExpiry");
+  const postalCodeSetMessage = document.getElementById("setMessagePostalCode");
+
+  cardNameSetMessage.addEventListener("click", () => {
+    nameField.setMessage("set mesaage for name field");
+  });
+  cardNumberSetMessage.addEventListener("click", () => {
+    numberField.setMessage("set mesaage for number field");
+  });
+  cvvSetMessage.addEventListener("click", () => {
+    cvvField.setMessage("set mesaage for cvv field");
+  });
+  expirySetMessage.addEventListener("click", () => {
+    expiryField.setMessage("set mesaage for expiry field");
+  });
+  postalCodeSetMessage.addEventListener("click", () => {
+    postalCodeField.setMessage("set mesaage for postal code field");
   });
 
   // Add click listener to merchant-supplied submit button and call the submit function on the CardField component
   multiCardFieldButton.addEventListener("click", () => {
     cardField
-      .submit({
-        // Vault Spike
-        vault: document.querySelector('#save').checked
-       }
-      )
-      .then(() => {
+      .submit()
+      .then((res) => {
         console.log("multi card fields submit");
+        console.log('response: ', res)
       })
       .catch((err) => {
         console.log("There was an error with multi card fields: ", err);
@@ -189,16 +295,26 @@ const singleCardFieldButton = document.getElementById(
   "single-card-field-button"
 );
 
+// const singleCardFieldsFocus = document.getElementById('scf-focus');
+// singleCardFieldsFocus.addEventListener('click', () => {
+//   cardField.focus()
+// });
+
+// const singleCardFieldsClear = document.getElementById('scf-clear');
+// singleCardFieldsClear.addEventListener('click', () => {
+//   cardField.clear()
+// })
+
 cardField.render(singleCardFieldsContainer);
 
-singleCardFieldButton.addEventListener("click", () => {
-  console.log("clicked single fields button");
-  cardField
-    .submit()
-    .then(() => {
-      console.log("single card fields submit");
-    })
-    .catch((err) => {
-      console.log("There was an error with single card fields: ", err);
-    });
-});
+// singleCardFieldButton.addEventListener("click", () => {
+//   console.log("clicked single fields button");
+//   cardField
+//     .submit()
+//     .then(() => {
+//       console.log("single card fields submit");
+//     })
+//     .catch((err) => {
+//       console.log("There was an error with single card fields: ", err);
+//     });
+// });
